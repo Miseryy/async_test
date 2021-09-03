@@ -1,0 +1,114 @@
+// use std::time::Duration;
+// https://qiita.com/Kumassy/items/fec47952d70b5073b1b7
+
+use tokio::time::{sleep, Duration};
+
+
+// async fn test() {
+//     sleep(Duration::from_millis(1000)).await;
+//     println!("t");
+// 
+// }
+
+// spawn
+// #[tokio::main]
+// async fn main() {
+//     tokio::spawn(async {
+//         sleep(Duration::from_millis(1000)).await;
+//         println!("1");
+// 
+//     });
+// 
+//     println!("hab");
+// 
+//     sleep(Duration::from_millis(2000)).await;
+// 
+// }
+
+// join
+// #[tokio::main]
+// async fn main() {
+//     let handle = tokio::spawn(async {
+//         sleep(Duration::from_millis(1000)).await;
+//         println!("1");
+// 
+//     });
+// 
+//     println!("he");
+// 
+//     let _ = handle.await.unwrap();
+// 
+// }
+
+// spawn join
+// #[tokio::main]
+// async fn main() {
+//     let handle = tokio::spawn(async {
+//         sleep(Duration::from_millis(1000)).await;
+//         "asf".to_string()
+// 
+//     });
+// 
+//     println!("wait");
+//     let re: String = handle.await.unwrap();
+//     println!("end");
+//     println!("{}", re);
+// 
+// }
+
+// spawn result channel
+// #[tokio::main]
+// async fn main() {
+//     use tokio::sync::oneshot;
+// 
+//     let (tx, rx) = oneshot::channel();
+// 
+//     tokio::spawn(async {
+//         tx.send("hhh".to_string()).unwrap();
+//     });
+// 
+//     let result = rx.await.unwrap();
+//     println!("{}", result);
+// }
+
+// multi future
+// #[tokio::main]
+// async fn main() {
+//     let fut1 = async {
+//         1
+//     };
+// 
+//     let fut2 = async {
+//         "test".to_string()
+//     };
+// 
+//     let (res1, res2):(i32, String) = tokio::join!(fut1, fut2);
+// 
+//     println!("{} {}", res1, res2);
+// 
+// }
+
+// join spawn
+#[tokio::main]
+async fn main() {
+    let fut1 = async {
+        sleep(Duration::from_millis(3000)).await;
+        1
+    };
+
+    let fut2 = async {
+        sleep(Duration::from_millis(1000)).await;
+        "test".to_string()
+    };
+
+    let hand1 = tokio::spawn(fut1);
+    println!("1");
+
+    let hand2 = tokio::spawn(fut2);
+    println!("2");
+
+    if let (Ok(res1), Ok(res2)) = tokio::join!(hand1, hand2) {
+        println!("{} {}", res1, res2);
+
+    }
+}
