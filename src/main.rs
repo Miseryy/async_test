@@ -10,7 +10,7 @@ static A: Lazy<Mutex<i32>> = Lazy::new(|| {
 
 // static A:OnceCell<Mutex<i32>> = OnceCell::new();
 
-static mut ABC:i32 = 0;
+// static mut ABC:i32 = 0;
 
 async fn test1() -> &'static str {
     sleep(Duration::from_millis(1000)).await;
